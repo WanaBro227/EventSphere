@@ -647,7 +647,7 @@ Possible future enhancements include:
 | Live Frontend | https://eventsphere-frontend-smoky.vercel.app/ |
 | GitHub Repository | https://github.com/WanaBro227/EventSphere |
 | Backend API | https://eventsphere-backend-x2un.onrender.com |
-| API Documentation | https://eventsphere-backend-x2un.onrender.com `/docs` |
+| API Documentation | https://eventsphere-backend-x2un.onrender.com/docs |
 
 ## 18. Academic Context
 
