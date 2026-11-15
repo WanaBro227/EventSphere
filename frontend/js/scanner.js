@@ -1,67 +1,85 @@
 
 "use strict";
 
+/* =========================================
+   EVENTSPHERE - TICKET SCANNER
+========================================= */
+
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("[EventSphere] Scanner JavaScript loaded.");
+
+    console.log("[EventSphere] Scanner initialized.");
 
     const form = document.getElementById("scanner-form");
     const input = document.getElementById("ticket-code");
     const button = document.getElementById("scan-button");
 
     if (!form || !input || !button) {
-        console.error("[Scanner] Required HTML elements not found.");
+        console.error("[Scanner] Required HTML elements are missing.");
         return;
     }
 
-    // Register the handler before checking the frontend role.
+    // Register the form submission event.
     form.addEventListener("submit", validateTicket);
 
-    console.log("[Scanner] Validate button handler registered.");
-
-    try {
-        if (typeof requireRole !== "function") {
-            throw new Error("Authentication function requireRole() is unavailable.");
+    // Allow Enter key to submit the form.
+    input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            form.requestSubmit();
         }
+    });
 
-        const authorized = requireRole(["staff", "admin"]);
+    console.log("[Scanner] Validation handler registered.");
 
-        if (authorized === false) {
-            button.disabled = true;
-            input.disabled = true;
-            showScannerResult(
-                "You are not authorized to access the ticket scanner.",
-                false
-            );
-        }
-    } catch (error) {
-        console.error("[Scanner] Authentication error:", error);
-        showScannerResult(
-            "Authentication check failed. Please log in again.",
-            false
-        );
-    }
 });
 
 
-async function validateTicket(event) {
-    event.preventDefault();
+/* =========================================
+   VALIDATE TICKET
+========================================= */
 
-    console.log("[Scanner] Validate button clicked.");
+async function validateTicket(event) {
+
+    event.preventDefault();
 
     const input = document.getElementById("ticket-code");
     const button = document.getElementById("scan-button");
 
-    const ticketCode = input.value.trim();
-
-    if (!ticketCode) {
-        showScannerResult("Please enter a ticket code.", false);
+    if (!input || !button) {
+        console.error("[Scanner] Input or button not found.");
         return;
     }
 
-    try {
-        setButtonLoading(button, true, "Validating...");
+    const ticketCode = input.value.trim();
 
-        console.log("[Scanner] Sending validation request:", ticketCode);
+    // Check empty ticket code.
+    if (!ticketCode) {
+        showScannerResult(
+            "Please enter a ticket code.",
+            false
+        );
+
+        input.focus();
+        return;
+    }
+
+    // Check API availability.
+    if (typeof API === "undefined" || typeof API.post !== "function") {
+
+        showScannerResult(
+            "API configuration is unavailable. Please refresh the page.",
+            false
+        );
+
+        console.error("[Scanner] API object is unavailable.");
+        return;
+    }
+
+    setButtonLoading(button, true, "Validating...");
+
+    try {
+
+        console.log("[Scanner] Validating ticket:", ticketCode);
 
         const response = await API.post(
             "/api/tickets/check-in",
@@ -70,38 +88,58 @@ async function validateTicket(event) {
             }
         );
 
-        console.log("[Scanner] Backend response:", response);
+        console.log("[Scanner] Validation response:", response);
 
-        if (!response.success) {
+        if (response && response.success === true) {
+
             showScannerResult(
-                response.message || "Ticket validation was unsuccessful.",
+                response.message || "Check-in successful.",
+                true
+            );
+
+            input.value = "";
+            input.focus();
+
+        } else {
+
+            showScannerResult(
+                response?.message || "Ticket validation failed.",
                 false
             );
-            return;
+
         }
 
-        showScannerResult(
-            response.message || "Check-in successful.",
-            true
-        );
-
-        input.value = "";
-
     } catch (error) {
+
         console.error("[Scanner] Validation error:", error);
 
-        showScannerResult(
-            error.message || "Unable to validate this ticket.",
-            false
-        );
+        let message = error.message || "Unable to validate ticket.";
+
+        if (message.includes("401")) {
+            message = "Your session has expired. Please log in again.";
+        }
+
+        if (message.includes("403")) {
+            message = "Access denied. Only staff and administrators can validate tickets.";
+        }
+
+        showScannerResult(message, false);
 
     } finally {
+
         setButtonLoading(button, false);
+
     }
+
 }
 
 
+/* =========================================
+   DISPLAY VALIDATION RESULT
+========================================= */
+
 function showScannerResult(message, success) {
+
     const result = document.getElementById("scanner-result");
 
     if (!result) return;
@@ -110,13 +148,46 @@ function showScannerResult(message, success) {
         ? "scanner-result success"
         : "scanner-result error";
 
-    result.innerHTML = `
-        <h4>${success ? "Ticket Result" : "Check-in Failed"}</h4>
-        <p>${escapeHTML(message)}</p>
-    `;
+    const heading = document.createElement("h4");
+    heading.textContent = success
+        ? "Ticket Validated"
+        : "Check-in Failed";
+
+    const paragraph = document.createElement("p");
+    paragraph.textContent = message;
+
+    result.replaceChildren(heading, paragraph);
 
     result.scrollIntoView({
         behavior: "smooth",
         block: "nearest"
     });
+
+}
+
+
+/* =========================================
+   BUTTON LOADING STATE
+========================================= */
+
+function setButtonLoading(button, loading, loadingText = "Please wait...") {
+
+    if (!button) return;
+
+    if (loading) {
+
+        button.dataset.originalText = button.textContent;
+        button.disabled = true;
+        button.textContent = loadingText;
+
+    } else {
+
+        button.disabled = false;
+        button.textContent =
+            button.dataset.originalText || "Validate Ticket";
+
+        delete button.dataset.originalText;
+
+    }
+
 }
