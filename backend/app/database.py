@@ -1,0 +1,48 @@
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, DeclarativeBase
+
+from app.config import settings
+
+
+# Database URL
+DATABASE_URL = settings.DATABASE_URL
+
+
+# SQLite configuration
+connect_args = {}
+
+if DATABASE_URL.startswith("sqlite"):
+    connect_args = {"check_same_thread": False}
+
+
+# Create database engine
+engine = create_engine(
+    DATABASE_URL,
+    connect_args=connect_args,
+    pool_pre_ping=True
+)
+
+
+# Create database session factory
+SessionLocal = sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=engine
+)
+
+
+# Base class for all database models
+class Base(DeclarativeBase):
+    pass
+
+
+# Database dependency for FastAPI routes
+def get_db():
+    db = SessionLocal()
+
+    try:
+        yield db
+
+    finally:
+        db.close()

@@ -1,0 +1,68 @@
+
+@media (max-width: 992px) {
+    .section {
+        padding: 55px 0;
+    }
+
+    .section-heading h2 {
+        font-size: 27px;
+    }
+
+    .navbar .btn {
+        margin-top: 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .events-hero {
+        padding: 50px 0;
+    }
+
+    .events-hero h1 {
+        font-size: 34px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 25px;
+    }
+
+    .dashboard-section-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .booking-summary {
+        position: static;
+    }
+
+    .event-search {
+        padding: 12px;
+    }
+}
+
+@media (max-width: 576px) {
+    .section {
+        padding: 40px 0;
+    }
+
+    .auth-card {
+        padding: 24px;
+    }
+
+    .event-card-body {
+        padding: 15px;
+    }
+
+    .admin-content {
+        padding: 15px;
+    }
+
+    .scanner-card {
+        padding: 20px;
+    }
+
+    .notification-item {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

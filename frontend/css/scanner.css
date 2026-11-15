@@ -1,0 +1,55 @@
+
+.scanner-container {
+    max-width: 700px;
+    margin: 35px auto;
+}
+
+.scanner-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+}
+
+.scanner-title {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.scanner-input {
+    font-size: 18px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.scanner-result {
+    margin-top: 25px;
+    padding: 20px;
+    border-radius: 12px;
+    display: none;
+}
+
+.scanner-result.success {
+    display: block;
+    background: #dcfae6;
+    color: #067647;
+}
+
+.scanner-result.error {
+    display: block;
+    background: #fee4e2;
+    color: #b42318;
+}
+
+.scanner-result h4 {
+    margin-bottom: 10px;
+}
+
+.ticket-qr {
+    display: block;
+    width: 220px;
+    height: 220px;
+    object-fit: contain;
+    margin: 20px auto;
+}

@@ -1,0 +1,104 @@
+
+.dashboard-header {
+    padding: 35px 0;
+}
+
+.dashboard-header h1 {
+    font-size: 30px;
+}
+
+.dashboard-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 23px;
+    height: 100%;
+    box-shadow: var(--shadow);
+}
+
+.dashboard-card .card-label {
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.dashboard-card .card-value {
+    font-family: 'Manrope', sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    margin-top: 8px;
+}
+
+.dashboard-section {
+    margin-top: 35px;
+}
+
+.dashboard-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.dashboard-table {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.dashboard-table table {
+    margin-bottom: 0;
+}
+
+.dashboard-table th {
+    background: #f9fafb;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.dashboard-table td {
+    vertical-align: middle;
+}
+
+.admin-sidebar {
+    background: #101828;
+    color: white;
+    min-height: 100%;
+    padding: 25px 15px;
+}
+
+.admin-sidebar .sidebar-brand {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    padding: 10px 15px 25px;
+    color: white;
+}
+
+.admin-sidebar a {
+    display: block;
+    padding: 12px 15px;
+    margin: 4px 0;
+    border-radius: 8px;
+    color: #d0d5dd;
+}
+
+.admin-sidebar a:hover,
+.admin-sidebar a.active {
+    background: #344054;
+    color: white;
+}
+
+.admin-content {
+    padding: 30px;
+}
+
+@media (max-width: 768px) {
+    .admin-content {
+        padding: 18px;
+    }
+}
