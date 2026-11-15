@@ -12,16 +12,28 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("scanner-form");
     const input = document.getElementById("ticket-code");
     const button = document.getElementById("scan-button");
+    const logoutButton = document.getElementById("logout-button");
+
+    // Register logout event.
+    if (logoutButton) {
+        logoutButton.addEventListener("click", () => {
+
+            if (typeof Auth !== "undefined") {
+                Auth.logout();
+            } else {
+                console.error("[Scanner] Auth object unavailable.");
+            }
+
+        });
+    }
 
     if (!form || !input || !button) {
         console.error("[Scanner] Required HTML elements are missing.");
         return;
     }
 
-    // Register the form submission event.
     form.addEventListener("submit", validateTicket);
 
-    // Allow Enter key to submit the form.
     input.addEventListener("keydown", (event) => {
         if (event.key === "Enter") {
             event.preventDefault();
@@ -29,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    console.log("[Scanner] Validation handler registered.");
+    console.log("[Scanner] Validation and logout handlers registered.");
 
 });
 
@@ -52,26 +64,17 @@ async function validateTicket(event) {
 
     const ticketCode = input.value.trim();
 
-    // Check empty ticket code.
     if (!ticketCode) {
-        showScannerResult(
-            "Please enter a ticket code.",
-            false
-        );
-
+        showScannerResult("Please enter a ticket code.", false);
         input.focus();
         return;
     }
 
-    // Check API availability.
     if (typeof API === "undefined" || typeof API.post !== "function") {
-
         showScannerResult(
             "API configuration is unavailable. Please refresh the page.",
             false
         );
-
-        console.error("[Scanner] API object is unavailable.");
         return;
     }
 
@@ -149,6 +152,7 @@ function showScannerResult(message, success) {
         : "scanner-result error";
 
     const heading = document.createElement("h4");
+
     heading.textContent = success
         ? "Ticket Validated"
         : "Check-in Failed";
@@ -183,6 +187,7 @@ function setButtonLoading(button, loading, loadingText = "Please wait...") {
     } else {
 
         button.disabled = false;
+
         button.textContent =
             button.dataset.originalText || "Validate Ticket";
 
