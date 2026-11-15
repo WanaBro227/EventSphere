@@ -3,7 +3,7 @@
 
 const CONFIG = {
     APP_NAME: "EventSphere",
-    API_BASE_URL: "http://127.0.0.1:8000",
+    API_BASE_URL: "https://eventsphere-backend-x2un.onrender.com",
 
     TOKEN_KEY: "eventsphere_access_token",
     USER_KEY: "eventsphere_user",

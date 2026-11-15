@@ -53,8 +53,8 @@ STATIC_DIRECTORY.mkdir(parents=True, exist_ok=True)
 
 allowed_origins = [
     settings.FRONTEND_URL,
-    "http://127.0.0.1:5500",
-    "http://localhost:5500",
+    "https://eventsphere-frontend-smoky.vercel.app",
+    "https://eventsphere-frontend-smoky.vercel.app",
 ]
 
 # Remove duplicate or empty origins.
