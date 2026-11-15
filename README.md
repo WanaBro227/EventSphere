@@ -498,7 +498,7 @@ http://127.0.0.1:8000/docs
 After deployment, use:
 
 ```text
-YOUR_RENDER_BACKEND_URL/docs
+https://eventsphere-backend-x2un.onrender.com/docs
 ```
 
 The API is organized around application responsibilities, including:
@@ -646,8 +646,8 @@ Possible future enhancements include:
 |---|---|
 | Live Frontend | https://eventsphere-frontend-smoky.vercel.app/ |
 | GitHub Repository | https://github.com/WanaBro227/EventSphere |
-| Backend API | Add Render backend URL |
-| API Documentation | Add deployed backend URL followed by `/docs` |
+| Backend API | https://eventsphere-backend-x2un.onrender.com |
+| API Documentation | https://eventsphere-backend-x2un.onrender.com `/docs` |
 
 ## 18. Academic Context
 
