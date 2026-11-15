@@ -5,22 +5,35 @@ from sqlalchemy.orm import sessionmaker, DeclarativeBase
 from app.config import settings
 
 
-# Database URL
+# Get database URL from environment settings
 DATABASE_URL = settings.DATABASE_URL
 
 
-# SQLite configuration
+# Handle older PostgreSQL URL format if provided
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace(
+        "postgres://",
+        "postgresql://",
+        1
+    )
+
+
+# Database connection configuration
 connect_args = {}
 
+# SQLite-specific configuration
 if DATABASE_URL.startswith("sqlite"):
-    connect_args = {"check_same_thread": False}
+    connect_args = {
+        "check_same_thread": False
+    }
 
 
 # Create database engine
 engine = create_engine(
     DATABASE_URL,
     connect_args=connect_args,
-    pool_pre_ping=True
+    pool_pre_ping=True,
+    pool_recycle=300
 )
 
 
@@ -39,6 +52,7 @@ class Base(DeclarativeBase):
 
 # Database dependency for FastAPI routes
 def get_db():
+
     db = SessionLocal()
 
     try:

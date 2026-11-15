@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
 
     # Frontend settings
-    FRONTEND_URL: str = "http://127.0.0.1:8000"
+    FRONTEND_URL: str = "http://127.0.0.1:5500"
 
     model_config = SettingsConfigDict(
         env_file=".env",
