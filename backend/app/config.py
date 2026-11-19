@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     DEBUG: bool = False
 
     # Database settings
-    DATABASE_URL: str = "postgresql://neondb_owner:npg_hO4APDd6RuBK@ep-still-river-b3og9c5w-pooler.c-4.ap-southeast-1.aws.neon.tech/eventsphere?sslmode=require&channel_binding=require"
+    DATABASE_URL: str
 
     # Authentication settings
     SECRET_KEY: str
@@ -28,5 +28,4 @@ class Settings(BaseSettings):
     )
 
 
-# Create a global settings object
 settings = Settings()
